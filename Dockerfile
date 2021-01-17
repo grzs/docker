@@ -68,15 +68,16 @@ RUN echo "deb http://deb.nodesource.com/node_8.x stretch main" > /etc/apt/source
 # copy helper script
 COPY odoo-helper.sh /usr/local/bin/
 
-# Expose Odoo services
-EXPOSE 8069 8071 8072
-
-# Set default user when running the container
+# Create and set default user when running the container
+RUN useradd -ms /bin/bash odoo
 USER odoo
 
 # create mount point
 RUN mkdir -p /opt/odoo \
     && chown -R odoo /opt/odoo
     
+# Expose Odoo services
+EXPOSE 8069 8071 8072
+
 ENTRYPOINT ["/usr/local/bin/odoo-helper.sh"]
 # CMD ["odoo"]

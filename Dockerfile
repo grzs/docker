@@ -65,10 +65,6 @@ RUN echo "deb http://deb.nodesource.com/node_8.x stretch main" > /etc/apt/source
     && npm install -g rtlcss \
     && rm -rf /var/lib/apt/lists/*
 
-# create mount point
-RUN mkdir -p /opt/odoo \
-    && chown -R odoo /opt/odoo
-    
 # copy helper script
 COPY odoo-helper.sh /usr/local/bin/
 
@@ -78,5 +74,9 @@ EXPOSE 8069 8071 8072
 # Set default user when running the container
 USER odoo
 
-ENTRYPOINT ["/entrypoint.sh"]
+# create mount point
+RUN mkdir -p /opt/odoo \
+    && chown -R odoo /opt/odoo
+    
+ENTRYPOINT ["/usr/local/bin/odoo-helper.sh"]
 # CMD ["odoo"]

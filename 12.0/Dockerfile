@@ -1,5 +1,5 @@
 FROM debian:stretch-slim
-MAINTAINER Odoo S.A. <info@odoo.com>
+MAINTAINER hungarodo.hu <admin@hungarodo.hu>
 
 SHELL ["/bin/bash", "-xo", "pipefail", "-c"]
 
@@ -65,36 +65,20 @@ RUN echo "deb http://deb.nodesource.com/node_8.x stretch main" > /etc/apt/source
     && npm install -g rtlcss \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Odoo
-ENV ODOO_VERSION 12.0
-ARG ODOO_RELEASE=20210111
-ARG ODOO_SHA=73dd74d0185588fbe052471217b28c1f796a542c
-RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/odoo_${ODOO_VERSION}.${ODOO_RELEASE}_all.deb \
-        && echo "${ODOO_SHA} odoo.deb" | sha1sum -c - \
-        && apt-get update \
-        && apt-get -y install --no-install-recommends ./odoo.deb \
-        && rm -rf /var/lib/apt/lists/* odoo.deb
-
-# Copy entrypoint script and Odoo configuration file
-COPY ./entrypoint.sh /
-COPY ./odoo.conf /etc/odoo/
-
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
-RUN chown odoo /etc/odoo/odoo.conf \
-    && mkdir -p /mnt/extra-addons \
-    && chown -R odoo /mnt/extra-addons
-VOLUME ["/var/lib/odoo", "/mnt/extra-addons"]
+# RUN chown odoo /etc/odoo/odoo.conf \
+#     && mkdir -p /mnt/extra-addons \
+#     && chown -R odoo /mnt/extra-addons
+# VOLUME ["/var/lib/odoo", "/mnt/extra-addons"]
 
 # Expose Odoo services
-EXPOSE 8069 8071 8072
+# EXPOSE 8069 8071 8072
 
 # Set the default config file
-ENV ODOO_RC /etc/odoo/odoo.conf
-
-COPY wait-for-psql.py /usr/local/bin/wait-for-psql.py
+# ENV ODOO_RC /etc/odoo/odoo.conf
 
 # Set default user when running the container
 USER odoo
 
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["odoo"]
+# ENTRYPOINT ["/entrypoint.sh"]
+# CMD ["odoo"]

@@ -113,7 +113,7 @@ export PGPASSFILE="${CONF_DIR}/pgpass"
 test $dry && echo "DRY RUN!"
 
 ## set and activate virtualenv
-VENV="${WD}/venv"
+test -z ${VENV} && VENV="/usr/local/venv"
 source ${VENV}/bin/activate
 
 ## compose command according to mode

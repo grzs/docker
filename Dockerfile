@@ -68,12 +68,13 @@ RUN echo "deb http://deb.nodesource.com/node_8.x stretch main" > /etc/apt/source
 # copy helper script
 COPY odoo-helper.sh /usr/local/bin/
 
-# Create odoo user
-RUN useradd -ms /bin/bash odoo
+# Create odoo user and group
+RUN useradd -ms /bin/bash odoo \
+    && groupadd odoo
 
 # create mount point
 RUN mkdir -p /opt/odoo \
-    && chown -R odoo /opt/odoo
+    && chown -R odoo:odoo /opt/odoo
     
 # Expose Odoo services
 EXPOSE 8069 8071 8072

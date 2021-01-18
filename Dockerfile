@@ -22,6 +22,7 @@ RUN apt-get update \
             python3-num2words \
             python3-pip \
 	    python3-virtualenv \
+	    virtualenv \
             python3-phonenumbers \
             python3-pyldap \
             python3-qrcode \
@@ -74,7 +75,6 @@ RUN useradd -ms /bin/bash odoo
 
 # create mount point
 RUN mkdir -p /opt/odoo \
-    && mkdir /opt/odoo/src \
     && chown -R odoo:odoo /opt/odoo
     
 # Expose Odoo services

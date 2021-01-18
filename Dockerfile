@@ -70,8 +70,7 @@ RUN echo "deb http://deb.nodesource.com/node_8.x stretch main" > /etc/apt/source
 COPY odoo-helper.sh /usr/local/bin/
 
 # Create odoo user and group
-RUN useradd -ms /bin/bash odoo \
-    && groupadd odoo
+RUN useradd -ms /bin/bash odoo
 
 # create mount point
 RUN mkdir -p /opt/odoo \

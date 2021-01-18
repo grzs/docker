@@ -74,6 +74,7 @@ RUN useradd -ms /bin/bash odoo
 
 # create mount point
 RUN mkdir -p /opt/odoo \
+    && mkdir /opt/odoo/src \
     && chown -R odoo:odoo /opt/odoo
     
 # Expose Odoo services

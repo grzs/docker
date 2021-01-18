@@ -21,6 +21,7 @@ RUN apt-get update \
             node-less \
             python3-num2words \
             python3-pip \
+	    python3-virtualenv \
             python3-phonenumbers \
             python3-pyldap \
             python3-qrcode \

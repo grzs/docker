@@ -23,6 +23,11 @@ RUN apt-get update \
             python3-pip \
 	    python3-virtualenv \
 	    virtualenv \
+	    python3-dev \
+	    build-essential \
+	    libldap2-dev \
+	    libssl-dev \
+	    libsasl2-dev \
             python3-phonenumbers \
             python3-pyldap \
             python3-qrcode \
@@ -76,12 +81,19 @@ RUN useradd -ms /bin/bash odoo
 # create mount point
 RUN mkdir -p /opt/odoo \
     && chown -R odoo:odoo /opt/odoo
-    
-# Expose Odoo services
-EXPOSE 8069 8071 8072
 
 # Set default user when running the container
 USER odoo
+
+# virtualenv
+COPY pasas_requirements.txt /home/odoo/
+RUN virtualenv -p python3 /home/odoo/venv \
+    && source /home/odoo/venv/bin/activate \
+    && pip install -r /home/odoo/pasas_requirements.txt \
+    && deactivate
+
+# Expose Odoo services
+EXPOSE 8069 8071 8072
 
 ENTRYPOINT ["/usr/local/bin/odoo-helper.sh"]
 # CMD ["odoo"]
